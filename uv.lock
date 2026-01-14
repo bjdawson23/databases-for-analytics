@@ -187,11 +187,11 @@ provides-extras = ["dev", "docs"]
 
 [[package]]
 name = "datafun-toolkit"
-version = "0.9.4"
+version = "0.9.5"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/73/0a/bce119ca3176159471fc99dd88fc525fcdaabfadf4a5e393ff28cc2a4582/datafun_toolkit-0.9.4.tar.gz", hash = "sha256:22baf26d93074005e205be112c79028adc6e87eabc50307a7ed8e9f836764781", size = 84180, upload-time = "2026-01-08T06:13:28.102Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/a3/83/c0f878fc9bb53e12b6c8a1ab8483f7ec0aeeaa2f3cdec46b367f0f85215b/datafun_toolkit-0.9.5.tar.gz", hash = "sha256:7c1001abda89ed509d9c0d36664ffc1b8a4e5a861d5db168ba14dce7c4c5d65e", size = 71849, upload-time = "2026-01-12T04:35:46.767Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/b0/8c/49656416bf8043985efa4720be9cba04e8754ff9d51ae09c60415db807aa/datafun_toolkit-0.9.4-py3-none-any.whl", hash = "sha256:0ca754f718264e8ef1fa030ecf8f001ffed34b8eac467dbfbcf484f7612b0b4b", size = 9629, upload-time = "2026-01-08T06:13:25.969Z" },
+    { url = "https://files.pythonhosted.org/packages/92/dc/4faf4e2be9760fb1f24482bc7db40650fd888414224f4cf87ed5763f852e/datafun_toolkit-0.9.5-py3-none-any.whl", hash = "sha256:91c06a0a78aff7c002a66c10d095f9e2306ac992e88da39c5a41d54305cb4d10", size = 9760, upload-time = "2026-01-12T04:35:44.879Z" },
 ]
 
 [[package]]
@@ -247,11 +247,11 @@ wheels = [
 
 [[package]]
 name = "identify"
-version = "2.6.15"
+version = "2.6.16"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/ff/e7/685de97986c916a6d93b3876139e00eef26ad5bbbd61925d670ae8013449/identify-2.6.15.tar.gz", hash = "sha256:e4f4864b96c6557ef2a1e1c951771838f4edc9df3a72ec7118b338801b11c7bf", size = 99311, upload-time = "2025-10-02T17:43:40.631Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/5b/8d/e8b97e6bd3fb6fb271346f7981362f1e04d6a7463abd0de79e1fda17c067/identify-2.6.16.tar.gz", hash = "sha256:846857203b5511bbe94d5a352a48ef2359532bc8f6727b5544077a0dcfb24980", size = 99360, upload-time = "2026-01-12T18:58:58.201Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0f/1c/e5fd8f973d4f375adb21565739498e2e9a1e54c858a97b9a8ccfdc81da9b/identify-2.6.15-py2.py3-none-any.whl", hash = "sha256:1181ef7608e00704db228516541eb83a88a9f94433a8c80bb9b5bd54b1d81757", size = 99183, upload-time = "2025-10-02T17:43:39.137Z" },
+    { url = "https://files.pythonhosted.org/packages/b8/58/40fbbcefeda82364720eba5cf2270f98496bdfa19ea75b4cccae79c698e6/identify-2.6.16-py2.py3-none-any.whl", hash = "sha256:391ee4d77741d994189522896270b787aed8670389bfd60f326d677d64a6dfb0", size = 99202, upload-time = "2026-01-12T18:58:56.627Z" },
 ]
 
 [[package]]
