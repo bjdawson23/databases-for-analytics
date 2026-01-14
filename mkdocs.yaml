@@ -14,11 +14,11 @@
 
 site_name: "Project Documentation"
 
-#TODO: Change to your GitHub Pages URL.
-site_url: https://denisecase.github.io/databases-for-analytics/
+# GitHub Pages URL.
+site_url: https://github.com/bjdawson23
 
-#TODO: Change to your GitHub repository URL.
-repo_url: https://github.com/denisecase/databases-for-analytics
+# GitHub repository URL.
+repo_url: https://github.com/bjdawson23/databases-for-analytics/tree/main
 
 site_description: Project documentation.
 
@@ -29,8 +29,8 @@ extra:
   # WHY: Social links are optional polish; safe to remove without breaking docs.
   social:
     - icon: fontawesome/brands/github
-      #TODO: Change to your GitHub repository URL.
-      link: https://github.com/denisecase/databases-for-analytics
+      # GitHub repository URL.
+      link: https://github.com/bjdawson23/databases-for-analytics/tree/main
 
 # WHY: Material theme is industry standard, well-documented, and low maintenance.
 # CUSTOM: Explore other themes at https://mkdocs.org/about/themes/

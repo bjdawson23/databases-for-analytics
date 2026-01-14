@@ -1,6 +1,6 @@
 # Exercise 01: World Database SQL Practice
 
-- Name:
+- Name: Branton Dawson
 - Course: Database for Analytics
 - Module: 1
 - Database Used: World Database
@@ -27,7 +27,8 @@
 Why were these data types selected?
 
 ### Answer
-_Write your explanation here._
+_Population cannot be NULL and is INT and a whole numbers and will not have fractional or decimal parts.
+LifeExpectancy can be NULL and is a decimal(3,1) as a person could live over 100 years and a decimal place for the fraction of a year._
 
 ### Screenshot
 _Show the table structure or DESCRIBE output._
@@ -46,7 +47,7 @@ DESCRIBE country;
 Why do you think this data type was selected?
 
 ### Answer
-_Write your explanation here._
+_It is smallint data type. This is used to store small whole numbers and year fits that category._
 
 ### Screenshot
 
@@ -64,7 +65,7 @@ DESCRIBE country;
 Explain why your proposed data type might be better in some situations.
 
 ### Answer
-_Write your explanation here._
+_DATE could be used if you wanted the exact day of Indpendence.  YEAR could be used as well for just the year._
 
 ---
 

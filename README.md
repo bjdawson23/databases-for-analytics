@@ -42,7 +42,7 @@ Use the instructions above to get it ALL set up correctly.
 Most people open a terminal on their machine (not VS Code), open in their Repos folder and run:
 
 ```shell
-git clone https://github.com/YOURACCOUNT/databases-for-analytics
+git clone https://github.com/bjdawson23/databases-for-analytics/tree/main
 
 cd databases-for-analytics
 code .
