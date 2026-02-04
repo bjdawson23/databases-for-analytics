@@ -1,8 +1,8 @@
 # Exercise 04: Advanced SQL, Jupyter, and Visualization
 
-- Name:
+- Name: Branton Dawson
 - Course: Database for Analytics
-- Module:
+- Module: 4
 - Database Used: World Database
 - Tools Used: PostgreSQL, SQLAlchemy, Pandas, Jupyter Notebooks
 
@@ -31,7 +31,14 @@ Considering the World database, write a SQL statement that will **display the na
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT country.name AS "Country", count(countrylanguage.language) AS "Number of Languages"
+FROM country
+JOIN countrylanguage
+ON country.code = countrylanguage.countrycode
+WHERE countrylanguage.isofficial = 'T'
+GROUP BY country.name
+HAVING COUNT(countrylanguage.isofficial) > 2
+ORDER BY count(countrylanguage.language) DESC;
 ```
 
 ### Screenshot
@@ -49,7 +56,18 @@ After the `create_engine` command is executed, **what are the three statements r
 ### Python Code
 
 ```python
-# Your three Python statements here
+Postsql_query = """
+SELECT country.name AS "Country", count(countrylanguage.language) AS "Number of Languages"
+FROM country
+JOIN countrylanguage
+ON country.code = countrylanguage.countrycode
+WHERE countrylanguage.isofficial = 'T'
+GROUP BY country.name
+HAVING COUNT(countrylanguage.isofficial) > 2
+ORDER BY count(countrylanguage.language) DESC;
+"""
+df = pd.read_sql(Postsql_query, engine)
+df
 ```
 
 ### Screenshot
@@ -69,7 +87,17 @@ Using **Jupyter Notebooks**, write the Python code needed to produce the followi
 ### Python Code
 
 ```python
-# Your Python code here
+from matplotlib.ticker import MaxNLocator
+
+fig, ax = plt.subplots(figsize=(12, 6))
+ax.bar(df['Country'], df['Number of Languages'], color='blue')
+ax.yaxis.set_major_locator(MaxNLocator(integer=True))
+ax.set_xlabel('Country')
+ax.set_ylabel('Number of Official Languages')
+ax.set_title('Countries with More Than 2 Official Languages')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
 ```
 
 ### Screenshot
