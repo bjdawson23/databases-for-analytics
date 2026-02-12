@@ -1,8 +1,8 @@
 # Exercise 05: SQLDA Database - Dates, Data Quality, Arrays, and JSON
 
-- Name:
+- Name: Branton Dawson
 - Course: Database for Analytics
-- Module:
+- Module: 5
 - Database Used:  `sqlda` (Sample Datasets)
 - Tools Used: PostgreSQL (pgAdmin or psql)
 
@@ -42,7 +42,9 @@ year
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT DISTINCT EXTRACT(YEAR FROM sent_date) AS year
+FROM emails
+ORDER BY year ASC;
 ```
 
 ### Screenshot
@@ -65,7 +67,12 @@ count   year
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT
+  EXTRACT(YEAR FROM sent_date) AS year,
+  COUNT(*) AS emails_sent
+FROM emails
+GROUP BY EXTRACT(YEAR FROM sent_date)
+ORDER BY year ASC;
 ```
 
 ### Screenshot
@@ -86,7 +93,10 @@ Only include emails that contain **both** a sent date and an opened date.
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT sent_date, opened_date, opened_date - sent_date AS interval
+FROM emails
+WHERE opened_date NOTNULL AND sent_date NOTNULL
+ORDER BY 3 DESC;
 ```
 
 ### Screenshot
@@ -102,7 +112,10 @@ Using the `sqlda` database, write the SQL needed to show emails that contain an 
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT sent_date, opened_date, opened_date - sent_date AS interval
+FROM emails
+WHERE opened_date NOTNULL AND sent_date NOTNULL AND sent_date > opened_date
+ORDER BY 3 ASC;
 ```
 
 ### Screenshot
@@ -119,7 +132,7 @@ After looking at the data, **why is this the case?**
 
 ### Answer
 
-_Write your explanation here._
+_There were 109 that showed opened before the sent data.  It looks like they were all sent at 3:00PM on each day as part of an automated task.  I would attribute this to different time zones._
 
 ### Screenshot (if requested by instructor)
 
@@ -160,7 +173,7 @@ CREATE TEMP TABLE customer_dealership_distance AS (
 
 ### Answer
 
-_Write your explanation here._
+_The first two CREATE sections are creating a geospatial location for customers and dealerships.  The third is calculating the distance between customer and dealership._
 
 ---
 
@@ -177,7 +190,14 @@ For example - dealership 1 is below:
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT
+    d.dealership_id,
+    ARRAY_AGG(s.last_name || ', ' || s.first_name ORDER BY s.last_name, s.first_name) AS salespeople
+FROM dealerships d
+JOIN salespeople s
+    ON s.dealership_id = d.dealership_id
+GROUP BY d.dealership_id
+ORDER BY d.dealership_id;
 ```
 
 ### Screenshot
@@ -202,7 +222,16 @@ Reference image:
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT
+    d.state,
+	COUNT(*) AS salesperson_count,
+    ARRAY_AGG(s.last_name || ', ' || s.first_name ORDER BY s.last_name, s.first_name) AS salespeople
+FROM dealerships d
+JOIN salespeople s
+    ON s.dealership_id = d.dealership_id
+GROUP BY d.state
+ORDER BY d.state;
+
 ```
 
 ### Screenshot
@@ -218,7 +247,7 @@ Using the `sqlda` database, write the SQL needed to convert the **customers** ta
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT ROW_TO_JSON(customers) FROM customers;
 ```
 
 ### Screenshot
@@ -244,7 +273,15 @@ Reference image:
 ### SQL
 
 ```sql
--- Your SQL here
+SELECT
+    d.state,
+	COUNT(*) AS salesperson_count,
+    ARRAY_AGG(s.last_name || ', ' || s.first_name ORDER BY s.last_name, s.first_name) AS salespeople
+FROM dealerships d
+JOIN salespeople s
+    ON s.dealership_id = d.dealership_id
+GROUP BY d.state
+ORDER BY d.state;
 ```
 
 ### Screenshot
