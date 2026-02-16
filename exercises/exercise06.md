@@ -1,7 +1,7 @@
 # Module 6 - Exercise 1: Creating a Data Warehouse
 From the Operational Model to the Dimensional Model
 
-- Name:
+- Name: Branton Dawson
 - Course: Database for Analytics
 - Module: 6
 
@@ -107,7 +107,7 @@ Save your diagram image in this repo and embed it below.
 
 #### Diagram
 
-![Star Schema Diagram](star-schema.png)
+![Star Schema Diagram](screenshots/star-schema.png)
 
 ---
 
@@ -121,4 +121,11 @@ In 1-2 short paragraphs, explain:
 
 #### Design Notes
 
-_Write your design notes here._
+_What dimensions you chose and why:
+For the dimension table I chose customer, orders, part and date to supply all of the attributes not stored in the fact table. Some of these attributes include customer number, part number, category, month and year.  
+
+Why your fact table grain is daily sales:
+The fact table grain is daily sales totals because we do not need the transactions down to the minute or time of day.
+
+How your design supports at least 3 of the required analytics questions:
+My design supports at least 3 of the analytics question becuase I can aggregate by day, month and year.  I can also aggregate by customer and or part number.  Averages can also be calculated by category or customer zip code._
