@@ -1,6 +1,6 @@
-# Module 7 - Final Exercise:
+# Module 7 - Final Exercise
 
-Final Exercise/Final Project - Show Us Your Data!
+Final Exercise / Final Project - Show Us Your Data
 
 - Name: Branton Dawson
 - Course: Database for Analytics
@@ -10,49 +10,45 @@ Final Exercise/Final Project - Show Us Your Data!
 
 ## Overview
 
-In this exercise you will show us how you created your database, and the steps you went through to get there.
+In this exercise, you will show how you created your database and the steps you went through to get there.
 
 During Module 7, no late work is accepted, regardless of reason.
 
-Instructions:
+Complete the activities below in this order:
 
-Complete the instructions in each of the activities below in the following order:
+- Module 7: Lecture Materials -- Locating your Data
+- Module 7: Lecture Materials -- Installing your Data
+- Module 7: Lecture Materials -- Verifying your Data
 
-    Module 7: Lecture Materials -- Locating your Data
-    Module 7: Lecture Materials -- Installing your Data
-    Module 7: Lecture Materials -- Verifying your Data
+After completing these activities, show your end result and walk through what you have and how you got there.
 
-After completing these activities, show us your end result.  Walk us through what you have and how you got there.
+Include the following.
 
-Include the following:
+## Initial Data Source
 
-### The initial data source: IMDB Data - IMDb Non-Commercial Datasets
+### IMDb Non-Commercial Datasets
 
 Subsets of IMDb data are available for access to customers for personal and non-commercial use.
 
-- LINK: <https://datasets.imdbws.com/>
+- Link: <https://datasets.imdbws.com/>
 
-### The format of your data, include count of column and rows.
+## Data Format and Row/Column Counts
 
-The downloaded format of the data was tab-separated-values (TSV).  There are seven tables described below.
+The downloaded format was tab-separated values (TSV). There are seven tables:
 
-- akas - 8 columns and 55,165,257 rows
+- akas - 8 columns, 55,165,257 rows
+- titles - 10 columns, 12,301,237 rows
+- crew - 3 columns, 12,301,237 rows
+- episode - 4 columns, 9,403,918 rows
+- principals - 6 columns, 97,893,697 rows
+- ratings - 3 columns, 1,637,877 rows
+- names - 6 columns, 15,103,363 rows
 
-- titles - 10 columns and 12,301,237 rows
+## Data Dictionary Example
 
-- crew - 3 columns and 12,301,237 rows
+### titles table (`\d+ titles`)
 
-- episode - 4 columns and 9,403,918 rows
-
-- principals - 6 columns and 97,893,697 rows
-
-- ratings - 3 columns and 1,637,877 rows
-
-- names - 6 columns and 15,103,363 rows
-
-### Show a data dictionary - a table describing each data attribute/feature/column.
-
----
+```text
 imdb-# \d+ titles
                                               Table "public.titles"
      Column      |  Type   | Collation | Nullable | Default | Storage  | Compression | Stats target | Description
@@ -82,18 +78,17 @@ Referenced by:
 Not-null constraints:
     "title_basics_tconst_not_null" NOT NULL "tconst"
 Access method: heap
----
+```
 
-### Describe some of the obstacles you overcame to transform the data.
+## Obstacles and Transformations
 
----
+I used IMDb data in TSV format, which was challenging to work with at this scale. I could use Excel to open five of the seven files, and only a portion of the rows from each file. I ended up using Python and ChatGPT to extract and load the data into a usable format.
 
-I used the IMDB data and it was in a .tsv format and was challenging to work with.  I could use excel to open five of the seven files and only get a portion of the data from each file that I could open.  I ended up using python and chatgpt to extract and load the data into a usable format.
+The project required at least one date data type, and IMDb data did not provide one directly. I added a new column to the `titles` table called `year_start` as a date type, using January 1 for each existing start year.
 
-At least one date data type and the IMDB data did not have that.  I added a new column to the titles table called year_start that was a date data type.  I used January 1 for each start year already in the table.
+### SQL used
 
-- SQL CODE:
-
+```sql
 BEGIN;
 
 -- 1) Add the new date column
@@ -111,103 +106,109 @@ ALTER TABLE titles
 ADD CONSTRAINT titles_year_valid CHECK (start_year BETWEEN 1 AND 9999);
 
 COMMIT;
+```
 
----
+## Table Structures (with Data Types)
 
-### Show your table structure including data types.
+### akas
 
----
+![akas](screenshots/structure_akas.png)
 
-akas - ![akas](screenshots/structure_akas.png)
+- <PRIMARY KEY> titleId (string) - a tconst, an alphanumeric unique identifier of the title
+- <PRIMARY KEY> ordering (integer) - a number to uniquely identify rows for a given titleId
+- title (string) - the localized title
+- region (string) - the region for this version of the title
+- language (string) - the language of the title
+- types (array) - enumerated set of attributes for this alternative title; one or more of: "alternative", "dvd", "festival", "tv", "video", "working", "original", "imdbDisplay" (new values may be added)
+- attributes (array) - additional terms to describe this alternative title, not enumerated
+- isOriginalTitle (boolean) - 0: not original title; 1: original title
 
-    <PRIMARY KEY> titleId (string) - a tconst, an alphanumeric unique identifier of the title
-    <PRIMARY KEY> ordering (integer) – a number to uniquely identify rows for a given titleId
-    title (string) – the localized title
-    region (string) - the region for this version of the title
-    language (string) - the language of the title
-    types (array) - Enumerated set of attributes for this alternative title. One or more of the following: "alternative", "dvd", "festival", "tv", "video", "working", "original", "imdbDisplay". New values may be added in the future without warning
-    attributes (array) - Additional terms to describe this alternative title, not enumerated
-    isOriginalTitle (boolean) – 0: not original title; 1: original title
+### titles
 
-titles - ![titles](screenshots/structure_titles.png)
+![titles](screenshots/structure_titles.png)
 
-    <PRIMARY KEY> tconst (string) - alphanumeric unique identifier of the title
-    titleType (string) – the type/format of the title (e.g. movie, short, tvseries, tvepisode, video, etc)
-    primaryTitle (string) – the more popular title / the title used by the filmmakers on promotional materials at the point of release
-    originalTitle (string) - original title, in the original language
-    isAdult (boolean) - 0: non-adult title; 1: adult title
-    startYear (YYYY) – represents the release year of a title. In the case of TV Series, it is the series start year
-    endYear (YYYY) – TV Series end year. '\N' for all other title types
-    runtimeMinutes – primary runtime of the title, in minutes
-    genres (string array) – includes up to three genres associated with the title
-    year_start (date) - added this field to the title data for a field that was type date
+- <PRIMARY KEY> tconst (string) - alphanumeric unique identifier of the title
+- titleType (string) - type/format of the title (for example: movie, short, tvseries, tvepisode, video)
+- primaryTitle (string) - the more popular title / title used on promotional materials at release
+- originalTitle (string) - original title in the original language
+- isAdult (boolean) - 0: non-adult title; 1: adult title
+- startYear (YYYY) - release year of a title; for TV series, the series start year
+- endYear (YYYY) - TV series end year; '\N' for all other title types
+- runtimeMinutes - primary runtime of the title, in minutes
+- genres (string array) - up to three genres associated with the title
+- year_start (date) - added field to provide a date-type value
 
-crew - ![crew](screenshots/structure_crew.png)
+### crew
 
-    <PRIMARY KEY> tconst (string) - alphanumeric unique identifier of the title
-    directors (array of nconsts) - director(s) of the given title
-    writers (array of nconsts) – writer(s) of the given title
+![crew](screenshots/structure_crew.png)
 
-episode - ![episode](screenshots/structure_episode.png)
+- <PRIMARY KEY> tconst (string) - alphanumeric unique identifier of the title
+- directors (array of nconsts) - director(s) of the given title
+- writers (array of nconsts) - writer(s) of the given title
 
-    <PRIMARY KEY> tconst (string) - alphanumeric identifier of episode
-    parentTconst (string) - alphanumeric identifier of the parent TV Series
-    seasonNumber (integer) – season number the episode belongs to
-    episodeNumber (integer) – episode number of the tconst in the TV series
+### episode
 
-principals - ![principals](screenshots/structure_principals.png)
+![episode](screenshots/structure_episode.png)
 
-    <PRIMARY KEY> tconst (string) - alphanumeric unique identifier of the title
-    <PRIMARY KEY> ordering (integer) – a number to uniquely identify rows for a given titleId
-    nconst (string) - alphanumeric unique identifier of the name/person
-    category (string) - the category of job that person was in
-    job (string) - the specific job title if applicable, else '\N'
-    characters (string) - the name of the character played if applicable, else '\N'
+- <PRIMARY KEY> tconst (string) - alphanumeric identifier of episode
+- parentTconst (string) - alphanumeric identifier of the parent TV series
+- seasonNumber (integer) - season number the episode belongs to
+- episodeNumber (integer) - episode number of the tconst in the TV series
 
-ratings - ![ratings](screenshots/structure_ratings.png)
+### principals
 
-    <PRIMARY KEY> tconst (string) - alphanumeric unique identifier of the title
-    averageRating – weighted average of all the individual user ratings
-    numVotes - number of votes the title has received
+![principals](screenshots/structure_principals.png)
 
-names - ![names](screenshots/structure_names.png)
+- <PRIMARY KEY> tconst (string) - alphanumeric unique identifier of the title
+- <PRIMARY KEY> ordering (integer) - a number to uniquely identify rows for a given titleId
+- nconst (string) - alphanumeric unique identifier of the name/person
+- category (string) - the category of job that person was in
+- job (string) - the specific job title if applicable, else '\N'
+- characters (string) - the name of the character played if applicable, else '\N'
 
-    <PRIMARY KEY> nconst (string) - alphanumeric unique identifier of the name/person
-    primaryName (string)– name by which the person is most often credited
-    birthYear – in YYYY format
-    deathYear – in YYYY format if applicable, else '\N'
-    primaryProfession (array of strings)– the top-3 professions of the person
-    knownForTitles (array of tconsts) – titles the person is known for
+### ratings
 
----
+![ratings](screenshots/structure_ratings.png)
 
-### Select * from each of your tables
+- <PRIMARY KEY> tconst (string) - alphanumeric unique identifier of the title
+- averageRating - weighted average of all individual user ratings
+- numVotes - number of votes the title has received
+
+### names
+
+![names](screenshots/structure_names.png)
+
+- <PRIMARY KEY> nconst (string) - alphanumeric unique identifier of the name/person
+- primaryName (string) - name by which the person is most often credited
+- birthYear - in YYYY format
+- deathYear - in YYYY format if applicable, else '\N'
+- primaryProfession (array of strings) - top 3 professions of the person
+- knownForTitles (array of tconsts) - titles the person is known for
+
+## Select * from Each Table
 
 - akas - ![select_akas](screenshots/select20_akas.png)
-
 - titles - ![select_titles](screenshots/select20_titles.png)
-
 - crew - ![select_crew](screenshots/select20_crew.png)
-
 - episode - ![select_episode](screenshots/select20_episode.png)
-
 - principals - ![select_principals](screenshots/select20_principals.png)
-
 - ratings - ![select_ratings](screenshots/select20_ratings.png)
-
 - names - ![select_names](screenshots/select20_names.png)
 
-### Show some **interesting queries** from your tables.  
+## Interesting Queries
 
-- Include:
+Include:
+
 - At least one join
-- At least one query where you group by and aggregate data
+- At least one query that groups and aggregates data
 
-**JOIN** - Top 20 movies of all time.  (Shawshank Redemption is one of my top 3 favorites!!!)
+### Join: Top 20 movies of all time
+
+(Shawshank Redemption is one of my top 3 favorites.)
+
 ![TOP20MOVIES](screenshots/query_join_top20movies.png)
 
----
-
+```sql
 SELECT t.primary_title, t.start_year, r.average_rating, r.num_votes
 FROM titles t
 JOIN ratings r ON r.tconst = t.tconst
@@ -215,28 +216,26 @@ WHERE t.title_type = 'movie'
   AND r.num_votes >= 50000
 ORDER BY r.average_rating DESC
 LIMIT 20;
+```
 
----
+### Group by: Favorite genres
 
-**GROUP BY**
 ![FAV_GENRES](screenshots/query_groupby_genre.png)
 
----
-
+```sql
 SELECT UNNEST(string_to_array(genres, '|')) AS genre,
        COUNT(*) AS count
 FROM titles
 WHERE genres IS NOT NULL
 GROUP BY genre
 ORDER BY count DESC;
+```
 
----
+### Aggregate: Top actors and actresses
 
-**AGGREGATE DATA**
 ![TOP_ACTORS_ACTRESSES](screenshots/query_aggregate_topactors.png)
 
----
-
+```sql
 WITH params AS (
   SELECT 10000::int AS min_votes, 10::int AS min_titles
 ),
@@ -244,7 +243,8 @@ actor_titles AS (
   SELECT p.nconst, r.average_rating, r.num_votes
   FROM principals p
   JOIN ratings r ON r.tconst = p.tconst
-  WHERE p.category IN ('actor','actress') AND r.num_votes >= (SELECT min_votes FROM params)
+  WHERE p.category IN ('actor', 'actress')
+    AND r.num_votes >= (SELECT min_votes FROM params)
 )
 SELECT n.primary_name AS performer,
        COUNT(*) AS titles,
@@ -256,5 +256,4 @@ GROUP BY n.primary_name
 HAVING COUNT(*) >= (SELECT min_titles FROM params)
 ORDER BY avg_rating DESC, total_votes DESC
 LIMIT 50;
-
----
+```
